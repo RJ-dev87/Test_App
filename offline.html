@@ -20,6 +20,18 @@
       margin: 20px;
       font-size: 16px;
     }
+    #output {
+      margin-top: 40px;
+      font-size: 24px;
+      padding: 20px;
+      border: 2px solid #333;
+      border-radius: 10px;
+      width: 80%;
+      max-width: 600px;
+      margin-left: auto;
+      margin-right: auto;
+      background-color: #fff;
+    }
   </style>
 </head>
 <body>
@@ -27,45 +39,163 @@
 
   <div>
     <label for="location">1) Location:</label><br>
-    <select id="location">
+    <select id="location" onchange="updateNumber()">
       <option value="">Bitte wählen</option>
-      <option value="strasse">Straße</option>
-      <option value="bus_bahn">Bus/Bahn</option>
-      <option value="geschaeft_supermarkt">Geschäft/Supermarkt</option>
-      <option value="park">Park</option>
-      <option value="club">Club</option>
-      <option value="bar">Bar</option>
-      <option value="event">Event</option>
-      <option value="arbeit">Arbeit</option>
+      <option>Straße</option>
+      <option>Bus/Bahn</option>
+      <option>Geschäft/Supermarkt</option>
+      <option>Park</option>
+      <option>Club</option>
+      <option>Bar</option>
+      <option>Event</option>
+      <option>Arbeit</option>
     </select>
   </div>
 
   <div>
     <label for="tageszeit">2) Tageszeit:</label><br>
-    <select id="tageszeit">
+    <select id="tageszeit" onchange="updateNumber()">
       <option value="">Bitte wählen</option>
-      <option value="tagsueber">tagsüber</option>
-      <option value="nachts">nachts</option>
+      <option>tagsüber</option>
+      <option>nachts</option>
     </select>
   </div>
 
   <div>
     <label for="ihr-kontext">3) Ihr Kontext:</label><br>
-    <select id="ihr-kontext">
+    <select id="ihr-kontext" onchange="updateNumber()">
       <option value="">Bitte wählen</option>
-      <option value="allein">allein</option>
-      <option value="zu_zweit">zu zweit</option>
-      <option value="gruppe">in der Gruppe</option>
+      <option>allein</option>
+      <option>zu zweit</option>
+      <option>in der Gruppe</option>
     </select>
   </div>
 
   <div>
     <label for="dein-kontext">4) Dein Kontext:</label><br>
-    <select id="dein-kontext">
+    <select id="dein-kontext" onchange="updateNumber()">
       <option value="">Bitte wählen</option>
-      <option value="allein">allein</option>
-      <option value="mit_wingman">mit Wingman</option>
+      <option>allein</option>
+      <option>mit Wingman</option>
     </select>
   </div>
+
+  <div id="output">Bitte wähle alle Optionen aus.</div>
+
+  <script>
+    const kombinationMap = {
+      "Straße|tagsüber|allein|allein": 1,
+      "Straße|tagsüber|allein|mit Wingman": 2,
+      "Straße|tagsüber|zu zweit|allein": 3,
+      "Straße|tagsüber|zu zweit|mit Wingman": 4,
+      "Straße|tagsüber|in der Gruppe|allein": 5,
+      "Straße|tagsüber|in der Gruppe|mit Wingman": 6,
+      "Straße|nachts|allein|allein": 7,
+      "Straße|nachts|allein|mit Wingman": 8,
+      "Straße|nachts|zu zweit|allein": 9,
+      "Straße|nachts|zu zweit|mit Wingman": 10,
+      "Straße|nachts|in der Gruppe|allein": 11,
+      "Straße|nachts|in der Gruppe|mit Wingman": 12,
+      "Bus/Bahn|tagsüber|allein|allein": 13,
+      "Bus/Bahn|tagsüber|allein|mit Wingman": 14,
+      "Bus/Bahn|tagsüber|zu zweit|allein": 15,
+      "Bus/Bahn|tagsüber|zu zweit|mit Wingman": 16,
+      "Bus/Bahn|tagsüber|in der Gruppe|allein": 17,
+      "Bus/Bahn|tagsüber|in der Gruppe|mit Wingman": 18,
+      "Bus/Bahn|nachts|allein|allein": 19,
+      "Bus/Bahn|nachts|allein|mit Wingman": 20,
+      "Bus/Bahn|nachts|zu zweit|allein": 21,
+      "Bus/Bahn|nachts|zu zweit|mit Wingman": 22,
+      "Bus/Bahn|nachts|in der Gruppe|allein": 23,
+      "Bus/Bahn|nachts|in der Gruppe|mit Wingman": 24,
+      "Geschäft/Supermarkt|tagsüber|allein|allein": 25,
+      "Geschäft/Supermarkt|tagsüber|allein|mit Wingman": 26,
+      "Geschäft/Supermarkt|tagsüber|zu zweit|allein": 27,
+      "Geschäft/Supermarkt|tagsüber|zu zweit|mit Wingman": 28,
+      "Geschäft/Supermarkt|tagsüber|in der Gruppe|allein": 29,
+      "Geschäft/Supermarkt|tagsüber|in der Gruppe|mit Wingman": 30,
+      "Geschäft/Supermarkt|nachts|allein|allein": 31,
+      "Geschäft/Supermarkt|nachts|allein|mit Wingman": 32,
+      "Geschäft/Supermarkt|nachts|zu zweit|allein": 33,
+      "Geschäft/Supermarkt|nachts|zu zweit|mit Wingman": 34,
+      "Geschäft/Supermarkt|nachts|in der Gruppe|allein": 35,
+      "Geschäft/Supermarkt|nachts|in der Gruppe|mit Wingman": 36,
+      "Park|tagsüber|allein|allein": 37,
+      "Park|tagsüber|allein|mit Wingman": 38,
+      "Park|tagsüber|zu zweit|allein": 39,
+      "Park|tagsüber|zu zweit|mit Wingman": 40,
+      "Park|tagsüber|in der Gruppe|allein": 41,
+      "Park|tagsüber|in der Gruppe|mit Wingman": 42,
+      "Park|nachts|allein|allein": 43,
+      "Park|nachts|allein|mit Wingman": 44,
+      "Park|nachts|zu zweit|allein": 45,
+      "Park|nachts|zu zweit|mit Wingman": 46,
+      "Park|nachts|in der Gruppe|allein": 47,
+      "Park|nachts|in der Gruppe|mit Wingman": 48,
+      "Club|tagsüber|allein|allein": 49,
+      "Club|tagsüber|allein|mit Wingman": 50,
+      "Club|tagsüber|zu zweit|allein": 51,
+      "Club|tagsüber|zu zweit|mit Wingman": 52,
+      "Club|tagsüber|in der Gruppe|allein": 53,
+      "Club|tagsüber|in der Gruppe|mit Wingman": 54,
+      "Club|nachts|allein|allein": 55,
+      "Club|nachts|allein|mit Wingman": 56,
+      "Club|nachts|zu zweit|allein": 57,
+      "Club|nachts|zu zweit|mit Wingman": 58,
+      "Club|nachts|in der Gruppe|allein": 59,
+      "Club|nachts|in der Gruppe|mit Wingman": 60,
+      "Bar|tagsüber|allein|allein": 61,
+      "Bar|tagsüber|allein|mit Wingman": 62,
+      "Bar|tagsüber|zu zweit|allein": 63,
+      "Bar|tagsüber|zu zweit|mit Wingman": 64,
+      "Bar|tagsüber|in der Gruppe|allein": 65,
+      "Bar|tagsüber|in der Gruppe|mit Wingman": 66,
+      "Bar|nachts|allein|allein": 67,
+      "Bar|nachts|allein|mit Wingman": 68,
+      "Bar|nachts|zu zweit|allein": 69,
+      "Bar|nachts|zu zweit|mit Wingman": 70,
+      "Bar|nachts|in der Gruppe|allein": 71,
+      "Bar|nachts|in der Gruppe|mit Wingman": 72,
+      "Event|tagsüber|allein|allein": 73,
+      "Event|tagsüber|allein|mit Wingman": 74,
+      "Event|tagsüber|zu zweit|allein": 75,
+      "Event|tagsüber|zu zweit|mit Wingman": 76,
+      "Event|tagsüber|in der Gruppe|allein": 77,
+      "Event|tagsüber|in der Gruppe|mit Wingman": 78,
+      "Event|nachts|allein|allein": 79,
+      "Event|nachts|allein|mit Wingman": 80,
+      "Event|nachts|zu zweit|allein": 81,
+      "Event|nachts|zu zweit|mit Wingman": 82,
+      "Event|nachts|in der Gruppe|allein": 83,
+      "Event|nachts|in der Gruppe|mit Wingman": 84,
+      "Arbeit|tagsüber|allein|allein": 85,
+      "Arbeit|tagsüber|allein|mit Wingman": 86,
+      "Arbeit|tagsüber|zu zweit|allein": 87,
+      "Arbeit|tagsüber|zu zweit|mit Wingman": 88,
+      "Arbeit|tagsüber|in der Gruppe|allein": 89,
+      "Arbeit|tagsüber|in der Gruppe|mit Wingman": 90,
+      "Arbeit|nachts|allein|allein": 91,
+      "Arbeit|nachts|allein|mit Wingman": 92,
+      "Arbeit|nachts|zu zweit|allein": 93,
+      "Arbeit|nachts|zu zweit|mit Wingman": 94,
+      "Arbeit|nachts|in der Gruppe|allein": 95,
+      "Arbeit|nachts|in der Gruppe|mit Wingman": 96
+    };
+
+    function updateNumber() {
+      const loc = document.getElementById("location").value;
+      const time = document.getElementById("tageszeit").value;
+      const ihr = document.getElementById("ihr-kontext").value;
+      const du = document.getElementById("dein-kontext").value;
+      const key = `${loc}|${time}|${ihr}|${du}`;
+      const output = document.getElementById("output");
+
+      if (kombinationMap[key]) {
+        output.textContent = `Kombinationsnummer: ${kombinationMap[key]}`;
+      } else {
+        output.textContent = "Bitte wähle alle Optionen aus.";
+      }
+    }
+  </script>
 </body>
 </html>
