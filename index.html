@@ -1,14 +1,23 @@
 <!DOCTYPE html>
 <html lang="de">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Landingpage</title>
   <style>
     body {
       font-family: Arial, sans-serif;
       text-align: center;
       padding-top: 100px;
+      background-color: #f2f2f2;
+    }
+    h1 {
+      font-size: 36px;
+      margin-bottom: 20px;
+    }
+    p {
+      font-size: 20px;
+      margin-bottom: 40px;
     }
     .button {
       padding: 20px 40px;
@@ -16,15 +25,22 @@
       margin: 20px;
       cursor: pointer;
       border: none;
-      border-radius: 8px;
+      border-radius: 10px;
+      transition: background-color 0.3s ease;
     }
     .online {
       background-color: #4CAF50;
       color: white;
     }
+    .online:hover {
+      background-color: #45a049;
+    }
     .offline {
       background-color: #f44336;
       color: white;
+    }
+    .offline:hover {
+      background-color: #e53935;
     }
   </style>
 </head>
@@ -35,4 +51,3 @@
   <button class="button offline" onclick="location.href='offline.html'">Offline</button>
 </body>
 </html>
-
