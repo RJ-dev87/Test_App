@@ -9,16 +9,28 @@
       font-family: Arial, sans-serif;
       padding: 40px;
       text-align: center;
-      background-color: #e6f7ff;
+      background-color: #e3f2fd;
     }
     h2 {
       margin-bottom: 40px;
     }
     select {
-      width: 250px;
+      width: 300px;
       padding: 10px;
       margin: 20px;
       font-size: 16px;
+    }
+    #output {
+      margin-top: 40px;
+      font-size: 24px;
+      padding: 20px;
+      border: 2px solid #333;
+      border-radius: 10px;
+      width: 80%;
+      max-width: 600px;
+      margin-left: auto;
+      margin-right: auto;
+      background-color: #fff;
     }
   </style>
 </head>
@@ -27,22 +39,50 @@
 
   <div>
     <label for="plattform">Plattform:</label><br>
-    <select id="plattform">
+    <select id="plattform" onchange="updateNumber()">
       <option value="">Bitte wählen</option>
-      <option value="tinder_hinge">Tinder/Hinge</option>
-      <option value="feeld">Feeld</option>
+      <option>Tinder/Hinge</option>
+      <option>Feeld</option>
     </select>
   </div>
 
   <div>
     <label for="stil">Stil:</label><br>
-    <select id="stil">
+    <select id="stil" onchange="updateNumber()">
       <option value="">Bitte wählen</option>
-      <option value="dreist">Dreist</option>
-      <option value="witzig">Witzig</option>
-      <option value="seriös">Seriös</option>
-      <option value="universell">Universell</option>
+      <option>Dreist</option>
+      <option>Witzig</option>
+      <option>Seriös</option>
+      <option>Universell</option>
     </select>
   </div>
+
+  <div id="output">Bitte wähle beide Optionen aus.</div>
+
+  <script>
+    const kombiMap = {
+      "Tinder/Hinge|Dreist": 1,
+      "Tinder/Hinge|Witzig": 2,
+      "Tinder/Hinge|Seriös": 3,
+      "Tinder/Hinge|Universell": 4,
+      "Feeld|Dreist": 5,
+      "Feeld|Witzig": 6,
+      "Feeld|Seriös": 7,
+      "Feeld|Universell": 8
+    };
+
+    function updateNumber() {
+      const plattform = document.getElementById("plattform").value;
+      const stil = document.getElementById("stil").value;
+      const key = `${plattform}|${stil}`;
+      const output = document.getElementById("output");
+
+      if (kombiMap[key]) {
+        output.textContent = `Kombinationsnummer: ${kombiMap[key]}`;
+      } else {
+        output.textContent = "Bitte wähle beide Optionen aus.";
+      }
+    }
+  </script>
 </body>
 </html>
