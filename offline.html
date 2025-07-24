@@ -1,14 +1,18 @@
 <!DOCTYPE html>
 <html lang="de">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Offline Auswahl</title>
   <style>
     body {
       font-family: Arial, sans-serif;
       padding: 40px;
       text-align: center;
+      background-color: #fff8e1;
+    }
+    h2 {
+      margin-bottom: 40px;
     }
     select {
       width: 250px;
@@ -16,20 +20,17 @@
       margin: 20px;
       font-size: 16px;
     }
-    h2 {
-      margin-bottom: 40px;
-    }
   </style>
 </head>
 <body>
-  <h2>Online-Auswahl</h2>
+  <h2>Offline-Auswahl</h2>
 
   <div>
     <label for="location">1) Location:</label><br>
     <select id="location">
       <option value="">Bitte wählen</option>
-      <option value="büro">Büro</option>
       <option value="zuhause">Zuhause</option>
+      <option value="büro">Büro</option>
       <option value="unterwegs">Unterwegs</option>
     </select>
   </div>
