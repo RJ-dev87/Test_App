@@ -1,14 +1,18 @@
 <!DOCTYPE html>
 <html lang="de">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Online Auswahl</title>
   <style>
     body {
       font-family: Arial, sans-serif;
       padding: 40px;
       text-align: center;
+      background-color: #e6f7ff;
+    }
+    h2 {
+      margin-bottom: 40px;
     }
     select {
       width: 250px;
@@ -16,17 +20,14 @@
       margin: 20px;
       font-size: 16px;
     }
-    h2 {
-      margin-bottom: 40px;
-    }
   </style>
 </head>
 <body>
   <h2>Online-Auswahl</h2>
 
   <div>
-    <label for="platform">1) Platform:</label><br>
-    <select id="platform">
+    <label for="plattform">Plattform:</label><br>
+    <select id="plattform">
       <option value="">Bitte wählen</option>
       <option value="web">Web</option>
       <option value="mobile">Mobile</option>
@@ -35,12 +36,12 @@
   </div>
 
   <div>
-    <label for="stil">2) Stil:</label><br>
+    <label for="stil">Stil:</label><br>
     <select id="stil">
       <option value="">Bitte wählen</option>
       <option value="minimalistisch">Minimalistisch</option>
-      <option value="verspielt">Verspielt</option>
       <option value="klassisch">Klassisch</option>
+      <option value="modern">Modern</option>
     </select>
   </div>
 </body>
