@@ -41,8 +41,8 @@
     <label for="plattform">Plattform:</label><br>
     <select id="plattform" onchange="updateNumber()">
       <option value="">Bitte wählen</option>
-      <option>Tinder/Hinge</option>
-      <option>Feeld</option>
+      <option value="Tinder/Hinge">Tinder/Hinge</option>
+      <option value="Feeld">Feeld</option>
     </select>
   </div>
 
@@ -50,10 +50,10 @@
     <label for="stil">Stil:</label><br>
     <select id="stil" onchange="updateNumber()">
       <option value="">Bitte wählen</option>
-      <option>Dreist</option>
-      <option>Witzig</option>
-      <option>Seriös</option>
-      <option>Universell</option>
+      <option value="Dreist">Dreist</option>
+      <option value="Witzig">Witzig</option>
+      <option value="Seriös">Seriös</option>
+      <option value="Universell">Universell</option>
     </select>
   </div>
 
@@ -62,9 +62,9 @@
   <script>
     const kombiMap = {
       "Tinder/Hinge|Dreist": "Ehrliches Feedback: dein Profil ist fast perfekt.",
-      "Tinder/Hinge|Witzig": 2,
-      "Tinder/Hinge|Seriös": 3,
-      "Tinder/Hinge|Universell": "Mal ehrlich: wieviele Typen sprechen dich auf [irdgendwas] in deinem dritten Bild an?",
+      "Tinder/Hinge|Witzig": "Humorvoller Opener für Tinder/Hinge.",
+      "Tinder/Hinge|Seriös": "Seriöser Start für Tinder/Hinge.",
+      "Tinder/Hinge|Universell": "Mal ehrlich: wieviele Typen sprechen dich auf [irgendwas] in deinem dritten Bild an?",
       "Feeld|Dreist": "Challenge: Wir gründen eine Mini-Sekte. Was ist das erste, was wir anzünden? & Ich hab Tarotkarten befragt, was bei unserem Match rauskommt. Sie sagen: 😈 + 🍷 + 🔮. Könnte schlimmer sein.",
       "Feeld|Witzig": "Vermutung: Du siehst aus, als ob du guten Wein, Trash-TV und originelle Safewords kombinierst. Stimmt’s? & Plakative Frage: Wenn unser Match ein Getränk wäre, wäre es mehr Espresso oder mehr Matcha?",
       "Feeld|Seriös": "Hi, ich war hier eine Weile nicht aktiv, aber dein Profil finde ich wirklich ansprechend. Ich würde dich gern kennenlernen, um zu sehen ob die Chemie zwischen uns stimmt.",
@@ -78,11 +78,18 @@
       const output = document.getElementById("output");
 
       if (kombiMap[key]) {
-        output.textContent = `${kombiMap[key]}`;
+        output.textContent = kombiMap[key];
       } else {
         output.textContent = "Bitte wähle beide Optionen aus.";
       }
     }
+
+    // Standardwert setzen beim Laden: Tinder/Hinge | Universell
+    window.onload = function() {
+      document.getElementById("plattform").value = "Tinder/Hinge";
+      document.getElementById("stil").value = "Universell";
+      updateNumber();
+    };
   </script>
 </body>
 </html>
