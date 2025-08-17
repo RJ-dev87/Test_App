@@ -19,9 +19,20 @@
     }
     ol {
       font-size: 18px;
+      padding-left: 20px;
     }
     li {
       margin-bottom: 10px;
+      padding: 10px;
+      background: #fff;
+      border: 1px solid #ddd;
+      border-radius: 6px;
+      cursor: grab;
+      transition: background 0.2s ease;
+    }
+    li.dragging {
+      opacity: 0.5;
+      background: #e0f7fa;
     }
     .back-button {
       display: block;
@@ -45,32 +56,90 @@
 </head>
 <body>
   <h1>Stories</h1>
-  <ol>
-    <li>Bootstour & Schlossurlaub.</li>
-    <li>Dating Diet.</li>
-    <li>Massage mit "Folke".</li>
-    <li>Gestohlenes Rad am Leopoldplatz und Trilemma.</li>
-    <li>Urlaube: Barcelona, Madrid, Korsika, Jamaika, Mallorca.</li>
-    <li>Vietnam Tunnel.</li>
-    <li>Kambodscha Nachtbus.</li>
-    <li>Hans & Hanne.</li>
-    <li>Grasgestank in Schule.</li>
-    <li>In Wohnung über Gerüst eingebrochen.</li>
-    <li>Unbekannte beim Festival.</li>
-    <li>Jamaika Beerdigung & Strip Club.</li>
-    <li>Kenya Motorrad & Sunburn.</li>
-    <li>36hr Date mit Krankenhaus.</li>
-    <li>Omas Katzen.</li>
-    <li>Wohnung für Mutter.</li>
-    <li>Beschwerde Nachbarn über Lautstärke.</li>
-    <li>Melodie vorsummen für App.</li>
-    <li>Gericht in Kroatien.</li>
-    <li>Wohnungstrick Sprengelkiez & HOWOGE.</li>
-    <li>vom Auto angefahren.</li>
-    <li>Ohne Führerschein in Schweden.</li>
-    <li>Radargruppe bei der Arbeit.</li>
-    <li>Autounfall mit Überschlägen.</li>
+  <ol id="story-list">
+    <li draggable="true">Bootstour & Schlossurlaub.</li>
+    <li draggable="true">Dating Diet.</li>
+    <li draggable="true">Massage mit "Folke".</li>
+    <li draggable="true">Gestohlenes Rad am Leopoldplatz und Trilemma.</li>
+    <li draggable="true">Urlaube: Barcelona, Madrid, Korsika, Jamaika, Mallorca.</li>
+    <li draggable="true">Vietnam Tunnel.</li>
+    <li draggable="true">Kambodscha Nachtbus.</li>
+    <li draggable="true">Hans & Hanne.</li>
+    <li draggable="true">Grasgestank in Schule.</li>
+    <li draggable="true">In Wohnung über Gerüst eingebrochen.</li>
+    <li draggable="true">Unbekannte beim Festival.</li>
+    <li draggable="true">Jamaika Beerdigung & Strip Club.</li>
+    <li draggable="true">Kenya Motorrad & Sunburn.</li>
+    <li draggable="true">36hr Date mit Krankenhaus.</li>
+    <li draggable="true">Omas Katzen.</li>
+    <li draggable="true">Wohnung für Mutter.</li>
+    <li draggable="true">Beschwerde Nachbarn über Lautstärke.</li>
+    <li draggable="true">Melodie vorsummen für App.</li>
+    <li draggable="true">Gericht in Kroatien.</li>
+    <li draggable="true">Wohnungstrick Sprengelkiez & HOWOGE.</li>
+    <li draggable="true">vom Auto angefahren.</li>
+    <li draggable="true">Ohne Führerschein in Schweden.</li>
+    <li draggable="true">Radargruppe bei der Arbeit.</li>
+    <li draggable="true">Autounfall mit Überschlägen.</li>
   </ol>
   <a href="index.html" class="back-button">Zurück zur Startseite</a>
+
+  <script>
+    const list = document.getElementById("story-list");
+    let draggingEl;
+
+    // gespeicherte Reihenfolge beim Laden anwenden
+    const savedOrder = JSON.parse(localStorage.getItem("storiesOrder"));
+    if (savedOrder) {
+      const items = Array.from(list.children);
+      savedOrder.forEach(text => {
+        const li = items.find(i => i.textContent === text);
+        if (li) list.appendChild(li);
+      });
+    }
+
+    list.addEventListener("dragstart", e => {
+      if (e.target.tagName === "LI") {
+        draggingEl = e.target;
+        e.target.classList.add("dragging");
+      }
+    });
+
+    list.addEventListener("dragend", e => {
+      if (e.target.tagName === "LI") {
+        e.target.classList.remove("dragging");
+        draggingEl = null;
+        saveOrder();
+      }
+    });
+
+    list.addEventListener("dragover", e => {
+      e.preventDefault();
+      const afterElement = getDragAfterElement(list, e.clientY);
+      if (afterElement == null) {
+        list.appendChild(draggingEl);
+      } else {
+        list.insertBefore(draggingEl, afterElement);
+      }
+    });
+
+    function getDragAfterElement(container, y) {
+      const draggableElements = [...container.querySelectorAll("li:not(.dragging)")];
+      return draggableElements.reduce((closest, child) => {
+        const box = child.getBoundingClientRect();
+        const offset = y - box.top - box.height / 2;
+        if (offset < 0 && offset > closest.offset) {
+          return { offset: offset, element: child };
+        } else {
+          return closest;
+        }
+      }, { offset: Number.NEGATIVE_INFINITY }).element;
+    }
+
+    function saveOrder() {
+      const order = [...list.querySelectorAll("li")].map(li => li.textContent);
+      localStorage.setItem("storiesOrder", JSON.stringify(order));
+    }
+  </script>
 </body>
 </html>
