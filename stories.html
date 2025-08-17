@@ -29,6 +29,7 @@
       border-radius: 6px;
       cursor: grab;
       transition: background 0.2s ease;
+      touch-action: none; /* verhindert Scrollen beim Draggen */
     }
     li.dragging {
       opacity: 0.5;
@@ -88,7 +89,7 @@
     const list = document.getElementById("story-list");
     let draggingEl;
 
-    // gespeicherte Reihenfolge beim Laden anwenden
+    // gespeicherte Reihenfolge anwenden
     const savedOrder = JSON.parse(localStorage.getItem("storiesOrder"));
     if (savedOrder) {
       const items = Array.from(list.children);
@@ -98,6 +99,7 @@
       });
     }
 
+    // --- Desktop Drag&Drop ---
     list.addEventListener("dragstart", e => {
       if (e.target.tagName === "LI") {
         draggingEl = e.target;
@@ -121,6 +123,31 @@
       } else {
         list.insertBefore(draggingEl, afterElement);
       }
+    });
+
+    // --- Touch Drag&Drop für Mobile ---
+    list.querySelectorAll("li").forEach(li => {
+      li.addEventListener("touchstart", e => {
+        draggingEl = li;
+        li.classList.add("dragging");
+      });
+
+      li.addEventListener("touchmove", e => {
+        e.preventDefault();
+        const touch = e.touches[0];
+        const afterElement = getDragAfterElement(list, touch.clientY);
+        if (afterElement == null) {
+          list.appendChild(draggingEl);
+        } else {
+          list.insertBefore(draggingEl, afterElement);
+        }
+      });
+
+      li.addEventListener("touchend", e => {
+        li.classList.remove("dragging");
+        draggingEl = null;
+        saveOrder();
+      });
     });
 
     function getDragAfterElement(container, y) {
