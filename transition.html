@@ -86,6 +86,16 @@
     const list = document.getElementById("story-list");
     let draggingEl;
 
+    // Reihenfolge aus localStorage laden
+    const savedOrder = JSON.parse(localStorage.getItem("storyOrder"));
+    if (savedOrder) {
+      const items = Array.from(list.children);
+      savedOrder.forEach(text => {
+        const li = items.find(i => i.textContent === text);
+        if (li) list.appendChild(li);
+      });
+    }
+
     list.addEventListener("dragstart", e => {
       if (e.target.tagName === "LI") {
         draggingEl = e.target;
@@ -97,6 +107,7 @@
       if (e.target.tagName === "LI") {
         e.target.classList.remove("dragging");
         draggingEl = null;
+        saveOrder();
       }
     });
 
@@ -121,6 +132,11 @@
           return closest;
         }
       }, { offset: Number.NEGATIVE_INFINITY }).element;
+    }
+
+    function saveOrder() {
+      const order = [...list.querySelectorAll("li")].map(li => li.textContent);
+      localStorage.setItem("storyOrder", JSON.stringify(order));
     }
   </script>
 </body>
