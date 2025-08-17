@@ -19,9 +19,20 @@
     }
     ol {
       font-size: 18px;
+      padding-left: 20px;
     }
     li {
       margin-bottom: 10px;
+      padding: 10px;
+      background: #fff;
+      border: 1px solid #ddd;
+      border-radius: 6px;
+      cursor: grab;
+      transition: background 0.2s ease;
+    }
+    li.dragging {
+      opacity: 0.5;
+      background: #e0f7fa;
     }
     .back-button {
       display: block;
@@ -45,30 +56,72 @@
 </head>
 <body>
   <h1>Transition</h1>
-  <ol>
-    <li>Direkte Frage: Worauf stehst du im Bett?</li>
-    <li>Ortswechsel, um nebeneinander zu sitzen.</li>
-    <li>Was war dein letzter Traum? [immer: Sextraum]</li>
-    <li>Zwei Dinge sagen das meiste über einen Menschen: Welche Musik sie hören und welche Vorlieben sie im Bett haben.</li>
-    <li>Bist du versaut? Ja > Dann erzähl mir, was du dir Versautes mit mir vorstellst. Nein > Bringe ich dir noch bei.</li>
-    <li>Was sind deine Grenzen beim ersten Date?</li>
-    <li>Kannst du Blicken standhalten?</li>
-    <li>Ohne Bullshit und Übertreibung: Wie gut küsst du?</li>
-    <li>Nun guck doch nicht wie so'n horny Unschuldslamm.</li>
-    <li>Beim Essen oder Trinken: „Sag ehrlich, das hast du nur bestellt, weil es besser aussieht, wenn du’s langsam isst.“ </li>
-    <li>Beim Anstoßen: „Auf ein Date, bei dem wir mindestens eine Sache bereuen… ich sag nicht, welche.“</li>
-    <li>Massagen/Yoga/Sport: „Oha, klingt so, als würdest du echt gut mit Körperspannung umgehen können.“</li>
-    <li>Über „erste Male“: „Großer Fan von ersten Malen… ein bisschen chaotisch, aber dafür echt.“</li>
-    <li>Wenn sie sich anlehnt oder nah ist: „Du weißt schon, dass du damit gerade ein paar falsche Hoffnungen weckst?“</li>
-    <li>Tanzen/Musik/Rhythmen: „Wenn du dich genauso bewegst wie du gerade guckst… könnten wir Ärger kriegen.“</li>
-    <li>Wenn sie lacht oder spielt: „Du weißt genau, wie man Unfug macht – aber tust so, als wärst du unschuldig.“</li>
-    <li>Sitzen/Nähe: „Wenn wir noch näher sitzen, muss jemand auf uns aufpassen.“</li>
-    <li>Wenn sie dir Komplimente macht: „Vorsicht. Noch mehr davon und ich bekomm schmutzige Gedanken.“</li>
-    <li>Dates allgemein: „Das Problem ist: gute Dates enden nie so harmlos, wie man es sich vorgenommen hat.</li>    
-    <li>Ich hatte mal ein first date...über 36-Stunden.</li>
-    <li>Was läuft da gerade in deinem Kopfkino?</li>
-    <li>Habe letztens einen witzigen Account zu Feng Shui gefunden: Ich kann dir jetzt sagen, wie gut dein Schlafzimmer eingerichtet ist.</li>
+  <ol id="story-list">
+    <li draggable="true">Direkte Frage: Worauf stehst du im Bett?</li>
+    <li draggable="true">Ortswechsel, um nebeneinander zu sitzen.</li>
+    <li draggable="true">Was war dein letzter Traum? [immer: Sextraum]</li>
+    <li draggable="true">Zwei Dinge sagen das meiste über einen Menschen: Welche Musik sie hören und welche Vorlieben sie im Bett haben.</li>
+    <li draggable="true">Bist du versaut? Ja > Dann erzähl mir, was du dir Versautes mit mir vorstellst. Nein > Bringe ich dir noch bei.</li>
+    <li draggable="true">Was sind deine Grenzen beim ersten Date?</li>
+    <li draggable="true">Kannst du Blicken standhalten?</li>
+    <li draggable="true">Ohne Bullshit und Übertreibung: Wie gut küsst du?</li>
+    <li draggable="true">Nun guck doch nicht wie so'n horny Unschuldslamm.</li>
+    <li draggable="true">Beim Essen oder Trinken: „Sag ehrlich, das hast du nur bestellt, weil es besser aussieht, wenn du’s langsam isst.“ </li>
+    <li draggable="true">Beim Anstoßen: „Auf ein Date, bei dem wir mindestens eine Sache bereuen… ich sag nicht, welche.“</li>
+    <li draggable="true">Massagen/Yoga/Sport: „Oha, klingt so, als würdest du echt gut mit Körperspannung umgehen können.“</li>
+    <li draggable="true">Über „erste Male“: „Großer Fan von ersten Malen… ein bisschen chaotisch, aber dafür echt.“</li>
+    <li draggable="true">Wenn sie sich anlehnt oder nah ist: „Du weißt schon, dass du damit gerade ein paar falsche Hoffnungen weckst?“</li>
+    <li draggable="true">Tanzen/Musik/Rhythmen: „Wenn du dich genauso bewegst wie du gerade guckst… könnten wir Ärger kriegen.“</li>
+    <li draggable="true">Wenn sie lacht oder spielt: „Du weißt genau, wie man Unfug macht – aber tust so, als wärst du unschuldig.“</li>
+    <li draggable="true">Sitzen/Nähe: „Wenn wir noch näher sitzen, muss jemand auf uns aufpassen.“</li>
+    <li draggable="true">Wenn sie dir Komplimente macht: „Vorsicht. Noch mehr davon und ich bekomm schmutzige Gedanken.“</li>
+    <li draggable="true">Dates allgemein: „Das Problem ist: gute Dates enden nie so harmlos, wie man es sich vorgenommen hat.</li>    
+    <li draggable="true">Ich hatte mal ein first date...über 36-Stunden.</li>
+    <li draggable="true">Was läuft da gerade in deinem Kopfkino?</li>
+    <li draggable="true">Habe letztens einen witzigen Account zu Feng Shui gefunden: Ich kann dir jetzt sagen, wie gut dein Schlafzimmer eingerichtet ist.</li>
    </ol>
   <a href="index.html" class="back-button">Zurück zur Startseite</a>
+
+  <script>
+    const list = document.getElementById("story-list");
+    let draggingEl;
+
+    list.addEventListener("dragstart", e => {
+      if (e.target.tagName === "LI") {
+        draggingEl = e.target;
+        e.target.classList.add("dragging");
+      }
+    });
+
+    list.addEventListener("dragend", e => {
+      if (e.target.tagName === "LI") {
+        e.target.classList.remove("dragging");
+        draggingEl = null;
+      }
+    });
+
+    list.addEventListener("dragover", e => {
+      e.preventDefault();
+      const afterElement = getDragAfterElement(list, e.clientY);
+      if (afterElement == null) {
+        list.appendChild(draggingEl);
+      } else {
+        list.insertBefore(draggingEl, afterElement);
+      }
+    });
+
+    function getDragAfterElement(container, y) {
+      const draggableElements = [...container.querySelectorAll("li:not(.dragging)")];
+      return draggableElements.reduce((closest, child) => {
+        const box = child.getBoundingClientRect();
+        const offset = y - box.top - box.height / 2;
+        if (offset < 0 && offset > closest.offset) {
+          return { offset: offset, element: child };
+        } else {
+          return closest;
+        }
+      }, { offset: Number.NEGATIVE_INFINITY }).element;
+    }
+  </script>
 </body>
 </html>
