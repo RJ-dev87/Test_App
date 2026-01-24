@@ -17,54 +17,80 @@
     }
     p {
       font-size: 20px;
-      margin-bottom: 40px;
+      margin-bottom: 30px;
+    }
+    input {
+      padding: 12px;
+      font-size: 18px;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+      margin-bottom: 20px;
     }
     .button {
       padding: 20px 40px;
       font-size: 18px;
-      margin: 20px;
+      margin: 15px;
       cursor: pointer;
       border: none;
       border-radius: 10px;
       transition: background-color 0.3s ease;
     }
-    .online {
-      background-color: #4CAF50;
-      color: white;
+    .hidden {
+      display: none;
     }
-    .online:hover {
-      background-color: #45a049;
-    }
-    .offline {
-      background-color: #f44336;
-      color: white;
-    }
-    .offline:hover {
-      background-color: #e53935;
-    }
-    .transition-btn {
-      background-color: #2196F3;
-      color: white;
-    }
-    .transition-btn:hover {
-      background-color: #1976D2;
-    }
-    .stories-btn {
-      background-color: #FF9800;
-      color: white;
-    }
-    .stories-btn:hover {
-      background-color: #FB8C00;
-    }
+    .online { background-color: #4CAF50; color: white; }
+    .offline { background-color: #f44336; color: white; }
+    .transition-btn { background-color: #2196F3; color: white; }
+    .stories-btn { background-color: #FF9800; color: white; }
+    .date-btn { background-color: #9C27B0; color: white; }
   </style>
 </head>
 <body>
+
   <h1>Willkommen!</h1>
-  <p>Bitte wähle eine Option:</p>
-  <button class="button online" onclick="location.href='online.html'">Online</button>
-  <button class="button offline" onclick="location.href='offline.html'">Offline</button>
-  <button class="button transition-btn" onclick="location.href='transition.html'">Transition</button>
-  <button class="button stories-btn" onclick="location.href='stories.html'">Stories</button>
-  <button class="button date_ideas-btn" onclick="location.href='date_ideas.html'">Date Ideas</button>
+
+  <!-- Passwort-Box -->
+  <div id="login">
+    <p>Bitte Passwort eingeben:</p>
+    <input type="password" id="password" />
+    <br />
+    <button class="button" onclick="checkPassword()">Enter</button>
+    <p id="error" style="color:red;"></p>
+  </div>
+
+  <!-- Inhalt nach Login -->
+  <div id="content" class="hidden">
+    <p>Bitte wähle eine Option:</p>
+    <button class="button online" onclick="location.href='online.html'">Online</button>
+    <button class="button offline" onclick="location.href='offline.html'">Offline</button>
+    <button class="button transition-btn" onclick="location.href='transition.html'">Transition</button>
+    <button class="button stories-btn" onclick="location.href='stories.html'">Stories</button>
+    <button class="button date_ideas-btn" onclick="location.href='date_ideas.html'">Date Ideas</button>
+  </div>
+
+  <script>
+    const PASSWORD = "geheim123"; // 👈 HIER Passwort ändern
+
+    // Falls schon eingeloggt
+    if (localStorage.getItem("authenticated") === "true") {
+      showContent();
+    }
+
+    function checkPassword() {
+      const input = document.getElementById("password").value;
+      if (input === PASSWORD) {
+        localStorage.setItem("authenticated", "true");
+        showContent();
+      } else {
+        document.getElementById("error").textContent = "Falsches Passwort";
+      }
+    }
+
+    function showContent() {
+      document.getElementById("login").style.display = "none";
+      document.getElementById("content").classList.remove("hidden");
+    }
+  </script>
+
 </body>
 </html>
