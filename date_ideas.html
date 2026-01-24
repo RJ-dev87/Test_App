@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Transition</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f9f9f9;
+      padding: 40px;
+      max-width: 800px;
+      margin: auto;
+      line-height: 1.6;
+    }
+    h1 {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+    ol {
+      font-size: 18px;
+      padding-left: 20px;
+    }
+    li {
+      margin-bottom: 10px;
+      padding: 10px;
+      background: #fff;
+      border: 1px solid #ddd;
+      border-radius: 6px;
+      cursor: grab;
+      transition: background 0.2s ease;
+      touch-action: none; /* verhindert Scrollen beim Draggen */
+    }
+    li.dragging {
+      opacity: 0.5;
+      background: #e0f7fa;
+    }
+    .back-button {
+      display: block;
+      width: fit-content;
+      margin: 40px auto 0;
+      padding: 15px 30px;
+      font-size: 16px;
+      background-color: #2196F3;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+      text-decoration: none;
+      text-align: center;
+    }
+    .back-button:hover {
+      background-color: #1976D2;
+    }
+  </style>
+</head>
+<body>
+  <h1>Transition</h1>
+  <ol id="story-list">
+    <li draggable="true">Baumarkt</li>
+    <li draggable="true">IKEA</li>
+    <li draggable="true">Carlotta</li>
+    <li draggable="true">Parfüm aussuchen im KaDeWe</li>
+    <li draggable="true">Open Mic</li>
+    <li draggable="true">zum Pubquiz und pöbeln</li>
+    <li draggable="true">zur Kreissitung der AfD und stören</li>
+    <li draggable="true">Dong Xuan Center</li>
+    <li draggable="true">Plattenbau/brutalist architecture tour</li>
+    <li draggable="true">Mellow Park/KollageCollectiv</li>
+    <li draggable="true">JVA Tegel Prison Sale</li>
+    <li draggable="true">Medizinhistor. Ausstellung Charité</li>
+    <li draggable="true">kajak trip Dreiländereck</li>
+    <li draggable="true">Restaurants around Savignyplatz</li>
+    <li draggable="true">Champaign tasting at KaDeWe</li>
+    <li draggable="true">Fischerpinte Plötzensee</li>
+    <li draggable="true">Eschschloraque Rümschrümp</li>
+    <li draggable="true">Abandoned Chemiewerk Rüdersdorf</li>
+    <li draggable="true">Abandoned Amusement Park Plänterwald</li>
+    <li draggable="true">Vabali Spa</li>
+    <li draggable="true">Drink&draw</li>    
+    <li draggable="true">Asia Street Food Preußenpark</li>
+    <li draggable="true">Abandoned Schwimmbad Konrad Wolf Strasse</li>
+    <li draggable="true">Stand-up Comedy Brauhaus Neulich</li>
+    <li draggable="true">Pain challenge at Computerspielemuseum</li>
+    <li draggable="true">Frischeparadies Storkower Strasse</li>
+    <li draggable="true">Markthallen (Arminius, Marheineke, # 9)</li>
+    <li draggable="true">Rooftop bars: Klunkerkranich, Hotel du Rome, Humboldtforum, Weekend</li>
+    <li draggable="true">watch the Sunday afternoon line at Berghain</li>
+    <li draggable="true">Observation Station Teufelsberg</li>
+    <li draggable="true">Zeiss Großplanetarium</li>
+    <li draggable="true">free sightseeing with Buslinie 100</li>
+    <li draggable="true">Dark Rooms Schöneweide</li>
+    <li draggable="true">take a walk at Königin Elisabeth Hospital</li>
+    <li draggable="true">any kind of public demonstration</li>
+    <li draggable="true">No-hipster pubcrawl in the outskirts</li>
+    <li draggable="true">Daydrinking & people watching at literally any park</li>
+    <li draggable="true">Public court hearings at Landgericht Tiergarten</li>
+    <li draggable="true">February: Shorts at Berlinale</li>
+    <li draggable="true">Summer: Chilling at Hobrecht-/Admiralbrücke</li>
+    <li draggable="true">Summer: Picknick at Tempelhofer Feld</li>
+    <li draggable="true">Summer: Street events like CSD, 1. Mai, Zug der Liebe, Rave the Planet, Motzstrassenfest, Karneval der Kulturen</li>
+    <li draggable="true">Summer: Public Dance at Monbijoupark</li>
+    <li draggable="true">Summer: Miniaturland Wuhlheide</li>
+    <li draggable="true">October: Berlin Pornfilmfestival</li>
+    <li draggable="true">November/December: Glühweinstrich Stargarder Strasse</li>
+    <li draggable="true">November/December: Xmas markets: Schloss Charlottenburg, RAW Gelände, Kulturbrauerei, Lichtenberg/Schöneweide</li>
+   </ol>
+  <a href="index.html" class="back-button">Zurück zur Startseite</a>
+
+  <script>
+    const list = document.getElementById("story-list");
+    let draggingEl;
+
+    // Reihenfolge aus localStorage laden
+    const savedOrder = JSON.parse(localStorage.getItem("storyOrder"));
+    if (savedOrder) {
+      const items = Array.from(list.children);
+      savedOrder.forEach(text => {
+        const li = items.find(i => i.textContent === text);
+        if (li) list.appendChild(li);
+      });
+    }
+
+    // --- Desktop Drag&Drop ---
+    list.addEventListener("dragstart", e => {
+      if (e.target.tagName === "LI") {
+        draggingEl = e.target;
+        e.target.classList.add("dragging");
+      }
+    });
+
+    list.addEventListener("dragend", e => {
+      if (e.target.tagName === "LI") {
+        e.target.classList.remove("dragging");
+        draggingEl = null;
+        saveOrder();
+      }
+    });
+
+    list.addEventListener("dragover", e => {
+      e.preventDefault();
+      const afterElement = getDragAfterElement(list, e.clientY);
+      if (afterElement == null) {
+        list.appendChild(draggingEl);
+      } else {
+        list.insertBefore(draggingEl, afterElement);
+      }
+    });
+
+    // --- Touch Drag&Drop für Mobile ---
+    list.querySelectorAll("li").forEach(li => {
+      li.addEventListener("touchstart", e => {
+        draggingEl = li;
+        li.classList.add("dragging");
+      });
+
+      li.addEventListener("touchmove", e => {
+        e.preventDefault();
+        const touch = e.touches[0];
+        const afterElement = getDragAfterElement(list, touch.clientY);
+        if (afterElement == null) {
+          list.appendChild(draggingEl);
+        } else {
+          list.insertBefore(draggingEl, afterElement);
+        }
+      });
+
+      li.addEventListener("touchend", e => {
+        li.classList.remove("dragging");
+        draggingEl = null;
+        saveOrder();
+      });
+    });
+
+    function getDragAfterElement(container, y) {
+      const draggableElements = [...container.querySelectorAll("li:not(.dragging)")];
+      return draggableElements.reduce((closest, child) => {
+        const box = child.getBoundingClientRect();
+        const offset = y - box.top - box.height / 2;
+        if (offset < 0 && offset > closest.offset) {
+          return { offset: offset, element: child };
+        } else {
+          return closest;
+        }
+      }, { offset: Number.NEGATIVE_INFINITY }).element;
+    }
+
+    function saveOrder() {
+      const order = [...list.querySelectorAll("li")].map(li => li.textContent);
+      localStorage.setItem("storyOrder", JSON.stringify(order));
+    }
+  </script>
+</body>
+</html>
